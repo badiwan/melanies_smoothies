@@ -21,8 +21,7 @@ my_dataframe = session.table("smoothies.public.fruit_options").select(col('fruit
 
 ingredients_list = st.multiselect(
     'Choose up to 5 ingredients:',
-    my_dataframe,
-    max_selection=5
+    my_dataframe
 )
 
 if ingredients_list:
@@ -39,3 +38,8 @@ if ingredients_list:
         session.sql(insert_statement).collect()
         st.write(insert_statement)
         st.success(f'Your smoothie is ordered, {name_on_order}', icon="✅")
+
+
+import requests
+smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
+fv_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width = True)
